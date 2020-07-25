@@ -10,7 +10,7 @@ function Main(){
             <Link to="/login/">跳转到登录</Link>
             <Link to="/index/">主界面</Link>
             <Route path="/login/" exact component={Login} />
-            <Route path="/index/" exact component={AdminIndex} />
+            <Route path="/index/" component={AdminIndex} />
         </Router>
 
         </>
