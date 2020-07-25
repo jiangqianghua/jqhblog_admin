@@ -17,11 +17,15 @@ function AdminIndex(){
     setCollapsed(collapsed)
   };
 
+  const menuClick = (e) => {
+    console.log(e.key)
+  } 
+
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider  collapsible collapsed={collapsed} onCollapse={onCollapse}>
           <div className="logo" />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" onClick={menuClick}>
             <Menu.Item key="1">
             <BarChartOutlined />
               <span>工作台</span>
