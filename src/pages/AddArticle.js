@@ -21,6 +21,11 @@ function AddArticle(props){
     const [selectedType,setSelectType] = useState("请选择") //选择的文章类别
     useEffect(()=> {
         getTypeInfo()
+        let tmpId = props.match.params.id
+        if(tmpId){
+            setArticleId(tmpId)
+            getArticleById(tmpId)
+        } 
     }, [])
     marked.setOptions({
         renderer: marked.Renderer(),
@@ -137,6 +142,27 @@ function AddArticle(props){
 
     }
 
+    const getArticleById = (id)=>{
+    axios(servicePath.getArticleById+'/'+id,{ 
+        withCredentials: true,
+        header:{ 'Access-Control-Allow-Origin':'*' }
+    }).then(
+        res=>{
+            //let articleInfo= res.data.data[0]
+            setArticleTitle(res.data.data[0].title)
+            setArticleContent(res.data.data[0].article_content)
+            let html=marked(res.data.data[0].article_content)
+            setMarkdownContent(html)
+            setIntroducemd(res.data.data[0].introduce)
+            let tmpInt = marked(res.data.data[0].introduce)
+            setIntroducehtml(tmpInt)
+            setShowDate(res.data.data[0].addTime)
+            setSelectType(res.data.data[0].typeId)
+
+        }
+    )
+}
+
     return (
         <div>
             <Row gutter={5}>
@@ -146,11 +172,12 @@ function AddArticle(props){
                             <Input 
                                 placeholder="博客标题" 
                                 size="large"
+                                value={articleTitle}
                                 onChange={e => setArticleTitle(e.target.value) } />
                         </Col>
                         <Col span={4}>
                             &nbsp;
-                            <Select defaultValue={selectedType} size="large"  onChange={selectTypeHanlder}>
+                            <Select defaultValue={selectedType} value={selectedType} size="large"  onChange={selectTypeHanlder}>
                                 {
                                     typeInfo.map((item, index) => {
                                         return <Option key={index} value={item.id}>{item.typeName}</Option>
@@ -195,6 +222,7 @@ function AddArticle(props){
                         <TextArea
                         rows={4}
                         placeholder="文章简介"
+                        value={introducemd}
                         onChange={changeIntroduce} 
                         onPressEnter={changeIntroduce}>
 
