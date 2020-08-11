@@ -19,6 +19,7 @@ function AddArticle(props){
     const [updateDate,setUpdateDate] = useState() //修改日志的日期
     const [typeInfo ,setTypeInfo] = useState([]) // 文章类别信息
     const [selectedType,setSelectType] = useState("请选择") //选择的文章类别
+    const [contentType, setContentType] = useState(2)
     useEffect(()=> {
         getTypeInfo()
         let tmpId = props.match.params.id
